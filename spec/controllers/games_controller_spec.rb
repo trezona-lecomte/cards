@@ -1,51 +1,49 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
-  let(:valid_attributes) { { } }
-  let(:invalid_attributes) { { fudge: "poopey" } }
   let(:valid_session) { {} }
-  let(:game) { Game.create! valid_attributes }
+  let(:game) { Game.create! }
 
   describe "GET #index" do
     it "assigns all games as @games" do
-      game = Game.create! valid_attributes
-      get :index, {}, valid_session
+      game = Game.create!
+      get :index, valid_session
       expect(assigns(:games)).to eq([game])
     end
   end
 
   describe "GET #show" do
     it "assigns the requested game as @game" do
-      game = Game.create! valid_attributes
-      get :show, {:id => game.to_param}, valid_session
+      game = Game.create!
+      get :show, { id: game.to_param }, valid_session
       expect(assigns(:game)).to eq(game)
+    end
+
+    context "when the game can't be found" do
+      it "responds with 404 Not Found" do
+        get :show, { id: 0 }
+        expect(response).to have_http_status(404)
+      end
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
+      before { post :create, valid_session }
+
       it "creates a new Game" do
         expect {
-          post :create, {:game => valid_attributes}, valid_session
+          post :create, valid_session
         }.to change(Game, :count).by(1)
       end
 
       it "assigns a newly created game as @game" do
-        post :create, {:game => valid_attributes}, valid_session
         expect(assigns(:game)).to be_a(Game)
         expect(assigns(:game)).to be_persisted
       end
 
-      it "redirects to the created game" do
-        post :create, {:game => valid_attributes}, valid_session
-        expect(response.status).to eq(201)
-      end
-    end
-
-    context "with invalid params" do
-      it "ignores the params and creates a game" do
-        post :create, {:game => invalid_attributes}, valid_session
-        expect(response.status).to eq(201)
+      it "responds with 201 Created" do
+        expect(response).to have_http_status(201)
       end
     end
   end
@@ -93,7 +91,7 @@ RSpec.describe GamesController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested game" do
-      game = Game.create! valid_attributes
+      game = Game.create!
       expect {
         delete :destroy, {:id => game.to_param}, valid_session
       }.to change(Game, :count).by(-1)

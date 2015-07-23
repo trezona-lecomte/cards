@@ -7,7 +7,6 @@ class GamesController < ApplicationController
     render json: @games
   end
 
-  # TODO fix RecordNotFound exception thrown when game id doesn't exist
   def show
     render json: @game
   end
@@ -42,11 +41,7 @@ class GamesController < ApplicationController
 
   private
 
-    def set_game
-      @game = Game.find(params[:id])
-    end
-
-    def game_params
-      params.require(:game)
-    end
+  def set_game
+    @game = Game.find(params[:id])
+  end
 end

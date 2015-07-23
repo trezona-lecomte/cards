@@ -2,13 +2,11 @@ class CreateGame
   attr_reader :errors, :game
 
   def initialize
-    @errors = []
-    @game = nil
+    @errors = [] # @errors = ActiveModel::Errors.new(self)
+    @game = Game.new
   end
 
   def call
-    @game = Game.create
-
     unless @game.valid?
       add_errors(@game.errors)
     end
