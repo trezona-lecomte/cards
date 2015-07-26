@@ -1,0 +1,14 @@
+:api = http://127.0.0.1:3000
+
+# GET games#index
+
+GET :api/games
+
+# GET games#show
+
+GET :api/games/1
+
+# POST games#create
+
+POST :api/games
+Content-Type : application/json

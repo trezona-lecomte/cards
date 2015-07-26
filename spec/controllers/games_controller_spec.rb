@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::GamesController, type: :controller do
+RSpec.describe GamesController, type: :controller do
   let(:valid_session) { {} }
   let(:game) { Game.create! }
 
@@ -97,7 +97,7 @@ RSpec.describe Api::V1::GamesController, type: :controller do
       }.to change(Game, :count).by(-1)
     end
 
-     it "returns a 204 no content http status code" do
+    it "returns a 204 no content http status code" do
       delete :destroy, {:id => game.to_param}, valid_session
       expect(response.status).to eq(204)
     end

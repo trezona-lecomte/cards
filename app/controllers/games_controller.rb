@@ -1,4 +1,4 @@
-class Api::V1::GamesController < ApplicationController
+class GamesController < ApplicationController
   before_action :set_game, only: [:show, :update, :destroy]
 
   def index
@@ -16,8 +16,6 @@ class Api::V1::GamesController < ApplicationController
 
     if game_creator.call
       @game = game_creator.game
-
-      binding.pry
 
       render json: @game, status: :created, location: @game
     else
